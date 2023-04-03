@@ -26,5 +26,18 @@ public class CustomerService {
                 .getAllCustomer()
                 .responseLstCustomer();
     }
-
+    public Customers getCustomerById(Integer idCustomer){
+        CustomerUseCase useCase = new CustomerUserCaseImpl(customerRep);
+        return useCase
+                .applyRequest(idCustomer)
+                .getCustomerById()
+                .responseCustomer();
+    }
+    public String updateCustomer(Customers customers){
+        CustomerUseCase useCase = new CustomerUserCaseImpl(customerRep);
+        return useCase
+                .applyRequest(customers)
+                .updateCustomer()
+                .response();
+    }
 }

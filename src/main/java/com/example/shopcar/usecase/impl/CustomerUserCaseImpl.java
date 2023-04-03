@@ -9,10 +9,11 @@ import java.util.List;
 
 public class CustomerUserCaseImpl implements CustomerUseCase {
 
-    private Customers customers =new Customers();
+    private Customers customer =new Customers();
     private CustomerRep customerRep;
 
     private List<Customers> customersList = new ArrayList<>();
+    private Integer idCustomer;
 
     public CustomerUserCaseImpl(CustomerRep customerRep) {
         this.customerRep = customerRep;
@@ -20,24 +21,30 @@ public class CustomerUserCaseImpl implements CustomerUseCase {
 
     @Override
     public CustomerUseCase applyRequest(Customers customers) {
-        this.customers = customers;
+        this.customer = customers;
+        return this;
+    }
+
+    @Override
+    public CustomerUseCase applyRequest(Integer idCustomer) {
+        this.idCustomer = idCustomer;
         return this;
     }
 
     @Override
     public CustomerUseCase saveCustomer() {
         Customers customersNew = new Customers();
-        customersNew.setCustomerId(this.customers.getCustomerId());
-        customersNew.setCustomerLastname(this.customers.getCustomerLastname());
-        customersNew.setCustomerFirstname(this.customers.getCustomerFirstname());
-        customersNew.setCustomerPhone(this.customers.getCustomerPhone());
-        customersNew.setCustomerAddress1(this.customers.getCustomerAddress1());
-        customersNew.setCustomerAddress2(this.customers.getCustomerAddress2());
-        customersNew.setCity(this.customers.getCity());
-        customersNew.setState(this.customers.getState());
-        customersNew.setCountry(this.customers.getCountry());
-        customersNew.setCreditLimit(this.customers.getCreditLimit());
-        customersNew.setEmployeeId(this.customers.getEmployeeId());
+        customersNew.setCustomerId(this.customer.getCustomerId());
+        customersNew.setCustomerLastname(this.customer.getCustomerLastname());
+        customersNew.setCustomerFirstname(this.customer.getCustomerFirstname());
+        customersNew.setCustomerPhone(this.customer.getCustomerPhone());
+        customersNew.setCustomerAddress1(this.customer.getCustomerAddress1());
+        customersNew.setCustomerAddress2(this.customer.getCustomerAddress2());
+        customersNew.setCity(this.customer.getCity());
+        customersNew.setState(this.customer.getState());
+        customersNew.setCountry(this.customer.getCountry());
+        customersNew.setCreditLimit(this.customer.getCreditLimit());
+        customersNew.setEmployeeId(this.customer.getEmployeeId());
         customerRep.save(customersNew);
         return this;
     }
@@ -57,5 +64,33 @@ public class CustomerUserCaseImpl implements CustomerUseCase {
     @Override
     public List<Customers> responseLstCustomer() {
         return this.customersList;
+    }
+
+    @Override
+    public CustomerUseCase getCustomerById() {
+        this.customer = customerRep.findByCustomerId(this.idCustomer);
+        return this;
+    }
+
+    @Override
+    public Customers responseCustomer() {
+        return this.customer;
+    }
+
+    @Override
+    public CustomerUseCase updateCustomer() {
+        Customers customersNew = customerRep.findByCustomerId(this.customer.getCustomerId());
+        customersNew.setCustomerLastname(this.customer.getCustomerLastname());
+        customersNew.setCustomerFirstname(this.customer.getCustomerFirstname());
+        customersNew.setCustomerPhone(this.customer.getCustomerPhone());
+        customersNew.setCustomerAddress1(this.customer.getCustomerAddress1());
+        customersNew.setCustomerAddress2(this.customer.getCustomerAddress2());
+        customersNew.setCity(this.customer.getCity());
+        customersNew.setState(this.customer.getState());
+        customersNew.setCountry(this.customer.getCountry());
+        customersNew.setCreditLimit(this.customer.getCreditLimit());
+        customersNew.setEmployeeId(this.customer.getEmployeeId());
+        customerRep.save(customersNew);
+        return this;
     }
 }

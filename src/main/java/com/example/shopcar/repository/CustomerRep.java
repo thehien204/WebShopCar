@@ -13,6 +13,6 @@ import java.util.List;
 public interface CustomerRep extends CrudRepository<Customers,Integer> {
     @Query(value = "SELECT * FROM CUSTOMERS", nativeQuery = true)
     List<Customers> getAllCustomer();
-    @Query(value = "SELECT * FROM CUSTOMERS as customer where customer.id := customerId",nativeQuery = true)
+    @Query(value = "SELECT * FROM CUSTOMERS as customer where customer.customer_id = :customerId",nativeQuery = true)
     Customers findByCustomerId(@Param("customerId") Integer idCustomer);
 }
